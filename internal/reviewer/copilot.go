@@ -20,7 +20,7 @@ func (Copilot) SupportsReReview() bool { return false }
 func (c Copilot) Review(ctx context.Context, pr github.PullRequest) error {
 	login := c.ReviewerLogin
 	if login == "" {
-		login = "Copilot"
+		login = "copilot-pull-request-reviewer[bot]"
 	}
 	if err := c.Client.RequestReviewers(ctx, pr, []string{login}); err != nil {
 		return err

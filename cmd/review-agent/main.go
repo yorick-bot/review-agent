@@ -96,5 +96,5 @@ func copilotLogin(cfg *config.Config) string {
 			return v
 		}
 	}
-	return "Copilot"
+	return "copilot-pull-request-reviewer[bot]"
 }
