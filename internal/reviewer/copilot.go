@@ -2,16 +2,16 @@ package reviewer
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/vacp2p/review-agent/internal/github"
 )
 
-// Copilot delegates review to GitHub Copilot by adding it as a requested
-// reviewer via the REST API, then removes the bot user from the reviewer list.
 type Copilot struct {
 	Client        *github.Client
 	ReviewerLogin string
 	BotUser       string
+	Log           *slog.Logger
 }
 
 func (Copilot) Name() string           { return "copilot" }
@@ -26,7 +26,10 @@ func (c Copilot) Review(ctx context.Context, pr github.PullRequest) error {
 		return err
 	}
 	if c.BotUser != "" {
-		_ = c.Client.RemoveReviewers(ctx, pr, []string{c.BotUser})
+		if err := c.Client.RemoveReviewers(ctx, pr, []string{c.BotUser}); err != nil && c.Log != nil {
+			c.Log.Warn("remove bot from reviewers failed",
+				"repo", pr.Owner+"/"+pr.Repo, "pr", pr.Number, "err", err)
+		}
 	}
 	return nil
 }

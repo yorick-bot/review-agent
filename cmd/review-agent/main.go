@@ -50,6 +50,7 @@ func main() {
 		Client:        gh,
 		ReviewerLogin: copilotLogin(cfg),
 		BotUser:       cfg.BotUser,
+		Log:           log,
 	})
 	for name := range cfg.Reviewers {
 		if name == "copilot" {
