@@ -1,0 +1,31 @@
+[Unit]
+Description=review-agent GitHub PR review bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=review-agent
+Group=review-agent
+EnvironmentFile=/etc/review-agent/env
+ExecStart=/usr/local/bin/review-agent -config /etc/review-agent/config.yaml
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallArchitectures=native
+ReadOnlyPaths=/etc/review-agent
+
+[Install]
+WantedBy=multi-user.target

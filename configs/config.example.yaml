@@ -1,0 +1,29 @@
+# The GitHub user whose PAT this service authenticates as. When this user is
+# added as a requested reviewer on a PR by an allowed user, the service fires.
+bot_user: my-review-bot
+
+# Bind only to localhost — Caddy handles TLS and forwards to us.
+listen_addr: 127.0.0.1:8080
+
+# Only these GitHub logins may trigger a review by requesting the bot.
+allowed_users:
+  - some-user-1
+  - some-user-2
+
+# Default reviewer backend. Must be a key under `reviewers` below.
+reviewer: copilot
+
+reviewers:
+  copilot:
+    # Override the login used when requesting Copilot, if GitHub changes it.
+    # reviewer_login: Copilot
+
+  # Future backends declare their config here. Not implemented in v1.
+  # deepseek:
+  #   api_key_env: DEEPSEEK_API_KEY
+  #   model: deepseek-coder
+
+# Optional per-repo overrides of the active reviewer.
+# repo_overrides:
+#   vacp2p/nwaku:
+#     reviewer: copilot

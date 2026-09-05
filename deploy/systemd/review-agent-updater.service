@@ -1,0 +1,10 @@
+[Unit]
+Description=review-agent release updater (one-shot)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=/etc/review-agent/updater-env
+ExecStart=/usr/local/bin/review-agent-updater.sh
